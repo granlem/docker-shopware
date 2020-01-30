@@ -86,7 +86,7 @@ RUN unzip -q /usr/src/install_6.1.1_1580132211.zip -d /var/www/html/
 RUN chown -R www-data:www-data /var/www/html
 
 # Adjust apache config
-ADD 000-default.conf /etc/apache2/sites-enabled/
+ADD https://raw.githubusercontent.com/granlem/docker-shopware/master/image/000-default.conf /etc/apache2/sites-enabled/
 
 # Cleanup
 RUN rm -rf /usr/src/*
