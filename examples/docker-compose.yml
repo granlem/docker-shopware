@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  webserver:
+    image: 'granlem/shopware'
+    restart: 'always'
+    ports:
+      - 80
+      - 443
+    volumes:
+      - web-data:/var/www/html
+      - web-conf:/etc/apache2/sites-enabled
+      - log:/var/log/apache2
+    configs:
+      - source: php_ini_large
+        target: /usr/local/etc/php/conf.d/large.ini
+  db:
+    image: 'mariadb:10.3'
+    restart: 'always'
+    volumes:
+      - db-data:/var/lib/mysql
+      - log:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD-changeme}
+      MYSQL_DATABASE: ${MYSQL_DATABASE-db}
+      MYSQL_USER: ${MYSQL_USER-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD-changemetoo}
+
+volumes:
+  web-data:
+    driver: local
+  web-conf:
+    driver: local
+  log:
+    driver: local
+  db-data:
+    driver: local
+
+configs:
+  php_ini_large:
+    external: true
